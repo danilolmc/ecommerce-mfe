@@ -5,7 +5,7 @@ on:
     branches:
       - main
 jobs:
-  build_and_deploy_apps: 
+  build_and_deploy: 
     runs-on: ubuntu-latest
 
     permissions:
@@ -30,14 +30,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Set base and head SHAs required for nx affected
-        uses: nrwl/nx-set-shas@v3
-
       - name: Install dependencies
         run: npm ci
 
       - name: Build Affected Projects
-        run: npx nx affected --target=build
+        run: npx nx affected:build --base=origin/main --prod
 
       - name: Run Tests for Affected Projects
         run: npx nx affected --target=test
@@ -50,4 +47,5 @@ jobs:
           role-session-name: ${{ secrets.AWS_ROLE_SESSION_NAME }}
 
       - name: Deploy Affected Projects to S3
-        run: npx nx affected --target=deploy
+        run: npx nx affected --target=deploy --base=origin/main
+
