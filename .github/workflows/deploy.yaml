@@ -37,7 +37,7 @@ jobs:
         run: npm ci
 
       - name: Build Affected Projects
-        run: npx nx affected:build --base=$NX_BASE --head=$NX_HEAD --configuration=production
+        run: npx nx affected --target=build --base=$NX_BASE --head=$NX_HEAD --configuration=production
 
       - name: Run Tests for Affected Projects
         run: npm run test:all
@@ -50,5 +50,5 @@ jobs:
           role-session-name: ${{ secrets.AWS_ROLE_SESSION_NAME }}
 
       - name: Deploy Affected Projects to S3
-        run: npx nx affected:deploy --base=$NX_BASE --head=$NX_HEAD
+        run: npx nx affected --target=deploy --base=$NX_BASE --head=$NX_HEAD
 
