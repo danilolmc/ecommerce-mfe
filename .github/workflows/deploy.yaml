@@ -37,7 +37,7 @@ jobs:
         run: npx nx affected:build --base=origin/main --prod
 
       - name: Run Tests for Affected Projects
-        run: npx nx affected --target=test
+        run: npm run test:all
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
