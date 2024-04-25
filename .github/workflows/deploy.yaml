@@ -1,0 +1,54 @@
+name: Build and Deploy to Amazon S3
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build_and_deploy: 
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      APP_SHELL_URL: ${{ secrets.APP_SHELL_URL }}
+      APP_SHOP_URL: ${{ secrets.APP_SHOP_URL }}
+      APP_CART_URL: ${{ secrets.APP_CART_URL }}
+      S3_BUCKET_APP_SHELL: ${{ secrets.S3_BUCKET_APP_SHELL }}
+      S3_BUCKET_APP_SHOP: ${{ secrets.S3_BUCKET_APP_SHOP }}
+      S3_BUCKET_APP_CART: ${{ secrets.S3_BUCKET_APP_CART }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      
+      - name: Set base and head SHAs
+        uses: nrwl/nx-set-shas@v3
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Affected Projects
+        run: npx nx affected:build --base=$NX_BASE --head=$NX_HEAD --configuration=production
+
+      - name: Run Tests for Affected Projects
+        run: npm run test:all
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: ${{ secrets.AWS_ROLE_SESSION_NAME }}
+
+      - name: Deploy Affected Projects to S3
+        run: npx nx affected:deploy --base=$NX_BASE --head=$NX_HEAD
+

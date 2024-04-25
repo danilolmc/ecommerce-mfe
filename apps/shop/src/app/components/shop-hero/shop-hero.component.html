@@ -1,0 +1,44 @@
+<div>
+    <h3 class="block font-bold mt-20 text-2xl">Compre por categoria</h3>
+
+
+    <div class="grid grid-cols-4 gap-4 w-full mt-12 h-80 md:h-[40vh]">
+        <a routerLink fragment="fragrances" class="relative block bg-cover bg-center col-span-2 rounded-md overflow-hidden  object-contain hero-fragrancies hover:opacity-90 transition">
+            <img ngSrc="https://cdn.dummyjson.com/product-images/15/thumbnail.jpg"
+            fill
+            class="h-full w-full object-cover object-center group-hover:opacity-75 aspect-square hover:opacity-90 transition" priority>
+
+            <div class="relative flex flex-col justify-end h-full p-4 md:p-8 bg-gray-900 bg-opacity-50 text-white">
+                <h2 class="text-sm md:text-xl font-bold">Fragancies</h2>
+                <a routerLink fragment="fragrances" class="text-white text-sm mt-1">Compre
+                    agora</a>
+            </div>
+        </a>
+
+        <div class="col-span-2 flex flex-col gap-4">
+            <a routerLink fragment="laptops" class="relative bg-cover bg-center flex-1 rounded-md overflow-hidden hero-laptops hover:opacity-90 transition">
+                <img ngSrc="https://cdn.dummyjson.com/product-images/9/thumbnail.jpg"
+                fill="10"
+                class="h-full w-full object-cover object-center group-hover:opacity-75 aspect-square hover:opacity-90 transition">
+    
+                <div class="relative  flex flex-col justify-end h-full p-4 md:p-8 bg-gray-900 bg-opacity-50 text-white">
+                    <h2 class="text-sm md:text-xl font-bold">Laptops</h2>
+                    <a routerLink fragment="laptops"  class=" text-white text-sm">Compre
+                        agora</a>
+                </div>
+            </a>
+
+            <a routerLink fragment="home-decoration"  class="relative bg-cover bg-center flex-1 rounded-md overflow-hidden hero-home hover:opacity-90 transition">
+                <img ngSrc="https://cdn.dummyjson.com/product-images/26/thumbnail.jpg"
+                fill="10"
+                class="h-full w-full object-cover object-center group-hover:opacity-75 aspect-square hover:opacity-90 transition">
+    
+                <div class="relative flex flex-col justify-end h-full p-4 md:p-8 bg-gray-900 bg-opacity-50 text-white">
+                    <h2 class="text-sm md:text-xl font-bold">Home</h2>
+                    <a routerLink fragment="home" class="text-white text-sm">Compre
+                        agora</a>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

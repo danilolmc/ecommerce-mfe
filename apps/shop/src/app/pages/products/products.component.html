@@ -1,0 +1,33 @@
+<ng-template #loading>
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 w-full flex py-32 justify-center">
+    <mat-progress-spinner mode="indeterminate" color="primary" diameter="50"></mat-progress-spinner>
+  </div>  
+</ng-template>
+
+
+<div>
+  <app-shop-hero class="mx-auto block max-w-7xl px-6 lg:px-8 w-full" />
+
+  @defer (when (productListByCategory | async)) {
+  <div class="mx-auto max-w-7xl px-6 py-6 lg:px-8 w-full">
+
+    @for (item of (productListByCategory | async); track $index) {
+    <app-product-session class="block mb-20 mt-10"
+      [productCategory]="item.category"
+      [productList]="item.list"
+      [attr.name]="item.category" />
+    } @empty {
+      <div class="mx-auto max-w-7xl px-6 lg:px-8 w-full flex py-32 justify-center">
+        <span class="text-slate-500 text-xl text-center">Parece que não encontramos nada, volte mais tarde</span>
+      </div>  
+    }
+  </div>
+  } @placeholder { 
+
+    <ng-container [ngTemplateOutlet]="loading"></ng-container>
+    
+  }@loading {
+    <ng-container [ngTemplateOutlet]="loading"></ng-container>
+  }
+
+</div>
