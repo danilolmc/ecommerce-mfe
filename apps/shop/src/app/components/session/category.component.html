@@ -1,0 +1,52 @@
+<ng-template>
+    <span class="example-pizza-party"
+        matSnackBarLabel>
+        Item adicionado ao carrinho
+    </span>
+</ng-template>
+
+
+<div class="bg-white">
+    <div class="mx-auto lg:max-w-7xl lg:px-0">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900 md:border-b md:border-gray-300 md:pb-6">
+            {{productCategory() | titlecase }}</h2>
+
+        <div class="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 cursor-pointer md:mt-8">
+            @for (item of productList(); track item; let i = $index) {
+            <a attr.class="flex flex-col justify-between justify-items-start [view-transition-name: list-{{i}}">
+                <div [routerLink]="['/product', item.id]"
+                    class="relative aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7 h-[250px]">
+                    <img [ngSrc]="item.thumbnail"
+                        [attr.alt]="item.title"
+                        fill
+                        class="h-full w-full object-cover object-center group-hover:opacity-75 aspect-square hover:opacity-90 transition">
+                </div>
+                <h3 class="my-4 text-xl h-10 font-bold">{{item.title}}</h3>
+                <h3 class="text-sm line-clamp-2">{{item.description}}</h3>
+
+                <div class="flex items-center my-4">
+                    @for (rating of item.maxRatingAsArray; track rating; let i = $index) {
+                    <svg [ngClass]="{'text-gray-200 h-5 w-5 flex-shrink-0': true, 'text-gray-900': i < item.rating - 1}"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    }
+                </div>
+
+                <p class="mt-1 text-lg font-medium">{{item.price| currency: 'BRL'}}</p>
+
+                <button
+                    class="w-full mt-10 bg-slate-950     hover:bg-slate-900 text-white py-2 px-4 rounded-md hover:opacity-80 transition"
+                    (click)="addToCart(item)">Adicionar ao carrinho</button>
+            </a>}
+            @empty {
+            <p class="text-gray-50 opacity-70 text-center my-32">No products to display</p>
+            }
+        </div>
+
+    </div>
+</div>

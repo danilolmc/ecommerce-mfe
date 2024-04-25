@@ -1,0 +1,112 @@
+{
+  "root": "apps/shopping-shell",
+  "name": "shopping-shell",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/shopping-shell/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/shopping-shell",
+        "index": "apps/shopping-shell/src/index.html",
+        "main": "apps/shopping-shell/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "apps/shopping-shell/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/shopping-shell/src/favicon.ico",
+          "apps/shopping-shell/src/assets"
+        ],
+        "styles": [
+          "apps/shopping-shell/src/styles.scss"
+        ],
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "apps/shopping-shell/webpack.config.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all",
+          "customWebpackConfig": {
+            "path": "apps/shopping-shell/webpack.prod.config.ts"
+          }
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nx/angular:module-federation-dev-server",
+      "options": {
+        "port": 4200,
+        "publicHost": "http://localhost:4200"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "shopping-shell:build:production"
+        },
+        "development": {
+          "buildTarget": "shopping-shell:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "shopping-shell:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/shopping-shell/jest.config.ts"
+      }
+    },
+    "deploy_localstack": {
+      "builder": "nx:run-commands",
+      "command": "bash -c 'chmod +x ./scripts/deploy.localstack.sh; ./scripts/deploy.localstack.sh apps/shopping-shell/template.yaml $S3_BUCKET_APP_SHELL shopping-shell shopping-shell-stack $APP_SHELL_URL'",
+      "cwd": "dist/apps/shopping-shell",
+      "parallel": false
+    },
+    "deploy": {
+      "builder": "nx:run-commands",
+      "command": "bash -c 'chmod +x ./scripts/deploy.sh; ./scripts/deploy.sh apps/shopping-shell/template.yaml $S3_BUCKET_APP_SHELL shopping-shell shopping-shell-stack $APP_SHELL_URL'",
+      "parallel": false
+    }
+  }
+}

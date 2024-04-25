@@ -1,0 +1,75 @@
+
+
+<div class="bg-white">
+    <div class="pt-0">
+
+        <div
+            class="mx-auto max-w-2xl px-6 pb-16 pt-10 sm:px-6 grid lg:max-w-7xl mt-6 md:grid-cols-3 gap-4 md:px-8 md:h-[600px]">
+            @for (image of (product | async)?.images; track image; let i = $index) {
+            @if((i + 1) <= 4){
+                <div
+                attr.class="custom-grid-item {{'custom-grid-item-' + (i + 1)}} cursor-pointer transition hover:opacity-90 rounded rounded-10 overflow-hidden md:border border-slate-200">
+                <img [attr.src]="image"
+                    class="h-full w-full object-contain md:object-cover object-center">
+        </div>
+        }
+        }
+    </div>
+
+    <div
+        class="mx-auto max-w-2xl px-6 pb-16 pt-0 md:pt-4 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-4">
+        <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8 product-title">
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{{(this.product | async)?.title}}
+            </h1>
+        </div>
+
+        <!-- Options -->
+        <div class="mt-4 lg:row-span-3 lg:mt-0">
+            <h2 class="sr-only">Product information</h2>
+            <p class="text-3xl tracking-tight text-gray-900">{{(product | async)?.price | currency: 'BRL'}}</p>
+
+            <!-- Reviews -->
+            <div class="mt-6">
+                <h3 class="sr-only">Reviews</h3>
+                <div class="flex items-center">
+                    <div class="flex items-center">
+                        @for (rating of (product | async)?.maxRatingAsArray; track rating; let i = $index) {
+                        <svg [ngClass]="{'text-gray-200 h-5 w-5 flex-shrink-0': true, 'text-gray-900': i < ratingValue}"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        }
+                    </div>
+                    <p class="sr-only">{{(product | async)?.rating | currency: 'BRL'}} out of 5 stars</p>
+                </div>
+            </div>
+
+            <footer class="mt-10">
+                
+                @if (!(product | async)?.stock) {
+                    <p class="text-red-500">Esse produto está sem estoque</p>
+                }
+
+                <button (click)="addToCart()"
+                    [attr.disabled]="!(this.product | async)?.stock ? '' : null"
+                    class="cursor-pointer mt-10 flex w-full items-center justify-center rounded-md bg-slate-950 disabled:bg-gray-400 hover:bg-slate-900 text-white py-3 text-base font-medium focus:outline-none focus:ring-2 focus:focus:bg-slate-950 focus:ring-offset-2">Adicionar
+                    ao carrinho</button>
+            </footer>
+        </div>
+
+        <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+            <div>
+                <h3 class="sr-only">Description</h3>
+
+                <div class="space-y-6">
+                    <p class="text-base text-gray-900">{{(this.product | async)?.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

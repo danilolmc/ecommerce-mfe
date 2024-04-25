@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 10rem;
+}
+
+::view-transition-old(root) {
+    animation: 0.5s transition-out 0s ease;
+}
+
+::view-transition-new(root) {
+    animation: 0.5s transition-in 0s ease;
+}
+
+@keyframes transition-out {
+    from {
+        opacity: 1;
+        translate: 0;
+    }
+
+    to {
+        opacity: 0;
+        translate: -3rem 0;
+    }
+}
+
+@keyframes transition-in {
+    from {
+        opacity: 0;
+        translate: 3rem 0;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0;
+    }
+}
+
+.custom_snackbar {
+    margin-top: 200px;
+    padding-top: 40px;
+}
